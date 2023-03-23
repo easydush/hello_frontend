@@ -1,12 +1,17 @@
 <template>
   <div class="hello">
-    <h3>{{ secondaryMsg }}</h3>
-    <h4>Students ({{ studentsCount }}): </h4>
+    <h4>{{ $t('students') }} ({{ studentsCount }}): </h4>
     <ol>
       <li :key="index" v-for="(student, index) in students">
-        {{ student.name }} {{ student.surname }}
+        {{ student.name }} {{ student.surname }} <button @click="() => handleDeleteStudent(student.id)">Удалить</button>
       </li>
     </ol>
+    <form @submit="handleCreateStudent">
+      <input name="name" type="text" v-model="name"/>
+      <input name="surname" type="text" v-model="surname"/>
+      <input name="group" type="number" v-model="group"/>
+      <button type="submit">{{ $t('create') }}</button>
+    </form>
   </div>
 </template>
 
@@ -19,6 +24,9 @@ export default {
   data() {
     return {
       secondaryMsg: 'this is secondary',
+      name: '',
+      surname: '',
+      group: 0,
     }
   },
   computed: {
@@ -28,7 +36,15 @@ export default {
     ...mapGetters(["students"])
   },
   methods: {
-    ...mapActions({loadStudents: "loadStudents"})
+    handleCreateStudent(event) {
+      event.preventDefault()
+      console.log(event)
+      this.createStudent({'name': this.$data.name, 'surname': this.$data.surname, 'group': this.$data.group})
+    },
+    handleDeleteStudent(student_id){
+      this.deleteStudent(student_id)
+    },
+    ...mapActions(["loadStudents", "createStudent", "deleteStudent"])
   },
   mounted() {
     this.loadStudents()

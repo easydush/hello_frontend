@@ -1,18 +1,19 @@
 <template>
-  <img alt="Hasbulla" src="./assets/hasbulla.png" id="Hasbulla" @mouseover="switchActive" @mouseleave="switchActive">
-  <h1 v-if="isActive" class="active">{{ msg }}</h1>
-  <h1 v-else class="">{{ msg }} is not active</h1>
+  <select v-model="$i18n.locale">
+    <option v-for="locale in $i18n.availableLocales" :key="`locale-${locale}`" :value="locale">{{ locale }}</option>
+  </select>
+  <img alt="Hasbulla" src="./assets/hasbulla.png" id="Hasbulla">
+  <router-link to="/auth">Login</router-link>
+  <router-link to="/students">Students</router-link>
 
-  <HelloWorld/>
+  <router-view />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
   },
   data() {
     return {
@@ -22,9 +23,6 @@ export default {
     }
   },
   methods: {
-    switchActive(){
-      this.isActive = !this.isActive
-    }
   },
   watch: {
     isActive(current) {
