@@ -14,7 +14,8 @@ const store =  createStore({
             id: null,
             token: '',
             email: ''
-        }
+        },
+        token: ''
     },
     actions: {
         loadStudents: function ({commit}) {
@@ -42,6 +43,10 @@ const store =  createStore({
                    commit('SET_USER', {user: response.data})
                })
         },
+        setToken: function ({commit}, token) {
+            console.log('SETTING', token)
+            commit('SET_VK_ACCESS_TOKEN', {token})
+        },
     },
     mutations: {
         SET_STUDENTS: (state, {students}) => {
@@ -50,6 +55,9 @@ const store =  createStore({
         SET_USER: (state, {user}) => {
             state.user = user
         },
+        SET_VK_ACCESS_TOKEN: (state, {token}) => {
+            state.token = token
+        },
     },
     getters: {
         students: (state) => {
@@ -57,6 +65,9 @@ const store =  createStore({
         },
         user: (state) => {
             return state.user
+        },
+        token: (state) => {
+            return state.token
         }
     }
 })
